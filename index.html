@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        img {
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body >
+    <div id="result"></div>
+    <script> 
+        class ImgaeObj{
+            name;
+            hide;
+            showimg;
+            constructor(name){
+                this.name = name;
+                this.hide = false;
+                this.showimg = false;
+            }
+            // khởi tạo obj gồnh 3 thuộc tính 
+            // name 
+            // hide: check ngửa úp
+            // showimg: true nếu cả 2 cùng ngửa
+        }
+        let arr = [[], []]
+        for (let x = 0 ; x < 2; x ++) {
+            for (let y = 0 ; y < 3; y ++) {
+                let img = new ImgaeObj(`anh${y+1}`);
+                arr[x][y] = img
+            }
+            // arr[0][0] = new ImgaeObj(`anh1`)
+            // arr[0][1] = new ImgaeObj(`anh2`)
+            // arr[0][2] = new ImgaeObj(`anh3`)
+            // arr[1][0] = new ImgaeObj(`anh1`)
+            // arr[2][1] = new ImgaeObj(`anh2`)
+            // arr[3][2] = new ImgaeObj(`anh3`)
+            // arr =[[ImgaeObj1 ,ImgaeObj2, ImgaeObj3] , [ImgaeObj4. ImgaeObj5, ImgaeObj6]]
+        }
+        // tạo 6 đối tượng ảnh  và đẩy vào mảng 2 chiều 
+        
+        //draw() hiển 6 cái nảnh
+        function draw(){
+            let table ="<table>"
+
+            for (let i = 0; i < arr.length; i++){
+
+                table += '<tr>'
+                for (let j = 0; j < arr[i].length; j++){
+                    let name_img = ''
+                    if (arr[i][j].hide == true || arr[i][j].showimg == true){
+                        // hide: check ngửa úp, showimg: true nếu cả 2 cùng ngửa
+                        name_img = arr[i][j].name
+                        // tên ảnh = anh1 
+                    } else {
+                        // hide: false, showimg: false
+                        name_img = 'anhbia'
+                    }
+                    table += "<td>" + `<img src="image/${name_img}.png" onclick= "showImage(${i},${j})">`
+                        // hàm showImage chạy khi mình click vào ảnh, truyền i, j  là vị trí của obj trong mảng
+                }
+            }
+            document.getElementById("result").innerHTML = table
+        }
+        draw()
+        // hiển thị ra mảng 2 chiều là bảng gồm 6 tấm ảnh
+
+
+        arrSosanh = []
+
+        //arrSosanh dùng để so sánh 2 bức ảnh xem giống nhau hay khác nhau
+        function showImage(imgx, imgy){
+            arr[imgx][imgy].hide = true
+            // click thì mở ảnh 
+            draw();
+            // vẽ lại  bảng với ảnh mới được mở
+            arrSosanh.push(arr[imgx][imgy])
+            // đẩy obj vào mnangr arrSosanh để so sánh
+
+            if (arrSosanh.length == 2){
+                // nếu mảng arrSosanh có 2 phần tử thì mới so chạy
+                if(arrSosanh[0].name != arrSosanh[1].name){
+                    arrSosanh[0].hide = false
+                    // úp ảnh , dổi trạng thái so sánh của ảnh đầu tiên trong mảng
+                    arrSosanh[1].hide = false
+                    // úp ảnh , dổi trạng thái so sánh của ảnh thứ 2  trong mảng
+                    arrSosanh =[]
+                    // gán lại mảng so sánh về rỗng
+                } else if (arrSosanh[0].name == arrSosanh[1].name){
+                    // nếu 2 ảnh giống nhau
+                    arrSosanh[0].showimg = true
+                    // dổi trạng thái showimg(khi có 2 ảnh giống nhnau) 
+                    arrSosanh[1].showimg = true
+                    // dổi trạng thái showimg(khi có 2 ảnh giống nhnau) 
+                    arrSosanh =[]
+                    // gán lại mảng so sánh về rỗng
+
+                }
+            }
+            // set thời gian 1s rồi hiển thi lại bảng
+            setTimeout(() => {
+                draw();
+            }, 1000)
+
+        }
+        
+    </script>
+</body>
+
+</html>
